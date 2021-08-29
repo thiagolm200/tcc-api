@@ -3,6 +3,7 @@ package com.unip.tcc.controller;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,10 +30,10 @@ public class RestController {
 	public String insereBanco(@RequestBody RequestHistoricoAgua request) {
 		HistoricoAgua historicoAgua = new HistoricoAgua();
 		
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.HOUR, -3);
 		
-		ZonedDateTime zdt = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
-        
-        Instant instant = zdt.toInstant();
+        Instant instant = calendar.toInstant();
         
         Date date = Date.from(instant);
 		
