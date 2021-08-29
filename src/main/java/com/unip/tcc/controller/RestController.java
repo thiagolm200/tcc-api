@@ -25,24 +25,24 @@ public class RestController {
 		this.historicoAguaRepository = historicoAguaRepository;
 	}
 	
-	@PostMapping(value="/salvar")
+	@PostMapping(value="salvar")
 	@ResponseBody
 	public String insereBanco(@RequestBody RequestHistoricoAgua request) {
-		HistoricoAgua historicoAgua = new HistoricoAgua();
 		
+		//diminuindo 3 horas do dia por conta do servidor EUA
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.HOUR, -3);
-		
         Instant instant = calendar.toInstant();
-        
         Date date = Date.from(instant);
-		
+        
+        HistoricoAgua historicoAgua = new HistoricoAgua();
+
         historicoAgua.setData(date);
-		
 		historicoAgua.setQuantidadeLitrosHora(request.getHora());
 		historicoAgua.setQuantidadeLitrosTotal(request.getTotal());
 		
 		historicoAguaRepository.save(historicoAgua);
+		
 		return "Inserido no Banco";
 	}
 }

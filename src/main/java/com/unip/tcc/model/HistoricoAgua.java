@@ -24,10 +24,10 @@ public class HistoricoAgua {
 	private Date data;
 	
 	@Column(name="quantidade_litros_hora")
-	private Long quantidadeLitrosHora;
+	private Double quantidadeLitrosHora;
 	
 	@Column(name="quantidade_litros_total")
-	private Long quantidadeLitrosTotal;
+	private Double quantidadeLitrosTotal;
 
 	public Integer getId() {
 		return id;
@@ -45,20 +45,19 @@ public class HistoricoAgua {
 		this.data = data;
 	}
 
-	public Long getQuantidadeLitrosHora() {
+	public Double getQuantidadeLitrosHora() {
 		return quantidadeLitrosHora;
 	}
 
-	public void setQuantidadeLitrosHora(Long quantidadeLitrosHora) {
+	public void setQuantidadeLitrosHora(Double quantidadeLitrosHora) {
 		this.quantidadeLitrosHora = quantidadeLitrosHora;
 	}
 
-	public Long getQuantidadeLitrosTotal() {
+	public Double getQuantidadeLitrosTotal() {
 		return quantidadeLitrosTotal;
 	}
 
-	public void setQuantidadeLitrosTotal(Long quantidadeLitrosTotal) {
+	public void setQuantidadeLitrosTotal(Double quantidadeLitrosTotal) {
 		this.quantidadeLitrosTotal = quantidadeLitrosTotal;
 	}
-	
 }

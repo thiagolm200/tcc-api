@@ -2,20 +2,20 @@ package com.unip.tcc.resource;
 
 public class RequestHistoricoAgua {
 	
-	private Long hora;
-	private Long total;
+	private Double hora;
 	
-	public Long getHora() {
+	private Double total;
+	
+	public Double getHora() {
 		return hora;
 	}
-	public void setHora(Long hora) {
+	public void setHora(Double hora) {
 		this.hora = hora;
 	}
-	public Long getTotal() {
+	public Double getTotal() {
 		return total;
 	}
-	public void setTotal(Long total) {
+	public void setTotal(Double total) {
 		this.total = total;
 	}
-
 }
