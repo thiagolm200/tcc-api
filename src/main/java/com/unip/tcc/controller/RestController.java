@@ -6,6 +6,8 @@ import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +29,7 @@ public class RestController {
 	
 	@PostMapping(value="salvar")
 	@ResponseBody
-	public String insereBanco(@RequestBody RequestHistoricoAgua request) {
+	public ResponseEntity<String> insereBanco(@RequestBody RequestHistoricoAgua request) {
 		
 		//diminuindo 3 horas do dia por conta do servidor EUA
 		Calendar calendar = Calendar.getInstance();
@@ -43,6 +45,6 @@ public class RestController {
 		
 		historicoAguaRepository.save(historicoAgua);
 		
-		return "Inserido no Banco";
+		return new ResponseEntity<>("Inserido no Banco", HttpStatus.OK);
 	}
 }
