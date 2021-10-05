@@ -1,50 +1,57 @@
 package com.unip.tcc.controller;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.unip.tcc.model.HistoricoAgua;
-import com.unip.tcc.repository.HistoricoAguaRepository;
-import com.unip.tcc.resource.RequestHistoricoAgua;
+import com.unip.tcc.model.WaterHistory;
+import com.unip.tcc.repository.WaterHistoryRepository;
+import com.unip.tcc.resource.ResponseConsumation;
 
 @org.springframework.web.bind.annotation.RestController
 @RequestMapping("/")
 public class RestController {
 	
-	private final HistoricoAguaRepository historicoAguaRepository;
+	private final WaterHistoryRepository waterHistoryRepository;
 
-	public RestController(HistoricoAguaRepository historicoAguaRepository) {
-		this.historicoAguaRepository = historicoAguaRepository;
+	public RestController(WaterHistoryRepository historicoAguaRepository) {
+		this.waterHistoryRepository = historicoAguaRepository;
 	}
 	
-	@PostMapping(value="salvar")
+	@PostMapping(value="save")
 	@ResponseBody
-	public ResponseEntity<String> insereBanco(@RequestBody RequestHistoricoAgua request) {
+	public ResponseEntity<String> saveWaterHistory(@RequestParam(name = "quantity") String quantity) {
 		
-		//diminuindo 3 horas do dia por conta do servidor EUA
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.HOUR, -3);
-        Instant instant = calendar.toInstant();
-        Date date = Date.from(instant);
+        WaterHistory historicoAgua = new WaterHistory(quantity);
+		
+        //waterHistoryRepository.save(historicoAgua);
+       waterHistoryRepository.saveByQuantity(quantity);
         
-        HistoricoAgua historicoAgua = new HistoricoAgua();
+		return new ResponseEntity<>("Sucess to persist !", HttpStatus.OK);
+	}
+	
+	@GetMapping(value="consumation")
+	@ResponseBody
+	public ResponseEntity<Object> consumationHistory(){
+		
+		WaterHistory waterHistoryToday = waterHistoryRepository.retreiveToday();
+		
+		WaterHistory waterHistoryYesterday = waterHistoryRepository.retreiveYesterday();
+		
+		List<WaterHistory> listWaterHistoryWeek = waterHistoryRepository.retreiveWeek();
 
-        historicoAgua.setData(date);
-		historicoAgua.setQuantidadeLitrosHora(request.getHora());
-		historicoAgua.setQuantidadeLitrosTotal(request.getTotal());
+		String qtyToday = waterHistoryToday.getQuantity();
 		
-		historicoAguaRepository.save(historicoAgua);
+		String qtyYesterday = waterHistoryYesterday.getQuantity();
 		
-		return new ResponseEntity<>("Inserido no Banco", HttpStatus.OK);
+		ResponseConsumation response = new ResponseConsumation(qtyToday, qtyYesterday, listWaterHistoryWeek);
+		
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 }
