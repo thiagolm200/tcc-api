@@ -6,15 +6,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.unip.tcc.model.WaterHistory;
 
 @Repository()
 public interface WaterHistoryRepository extends JpaRepository<WaterHistory, Integer>{
 	
-	//@Modifying
+	@Modifying
 	@Query(value="INSERT INTO water_history(quantity) values(?1)",
 			nativeQuery = true)
+	@Transactional
 	public int saveByQuantity(String quantity);
 	
 	@Query(value="SELECT * from water_history ha where ha.date_att > current_date at time zone 'gmt3'",
