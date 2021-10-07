@@ -23,7 +23,7 @@ public interface WaterHistoryRepository extends JpaRepository<WaterHistory, Inte
 			nativeQuery = true)
 	WaterHistory retreiveToday();
 	
-	@Query(value="SELECT * from water_history ha WHERE date(ha.date_att) >= date(now() at time zone 'gmt3' - interval '1 day')", 
+	@Query(value="SELECT * from water_history ha WHERE date(ha.date_att) = date(now() at time zone 'gmt3' - interval '1 day')", 
 			nativeQuery = true)
 	WaterHistory retreiveYesterday();
 	
