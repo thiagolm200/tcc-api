@@ -19,11 +19,11 @@ public interface WaterHistoryRepository extends JpaRepository<WaterHistory, Inte
 	@Transactional
 	public int saveByQuantity(Double quantity);
 	
-	@Query(value="SELECT * from water_history ha where date(ha.date_att) > date(now() at time zone 'gmt3')",
+	@Query(value="SELECT * from water_history ha where date(ha.date_att) = date(now() at time zone 'gmt3')",
 			nativeQuery = true)
 	WaterHistory retreiveToday();
 	
-	@Query(value="SELECT * from water_history ha WHERE date(ha.date_att) > date(now() at time zone 'gmt3' - interval '1 day') AND date(ha.date_att) < date(now() at time zone 'gmt3')", 
+	@Query(value="SELECT * from water_history ha WHERE date(ha.date_att) >= date(now() at time zone 'gmt3' - interval '1 day')", 
 			nativeQuery = true)
 	WaterHistory retreiveYesterday();
 	
