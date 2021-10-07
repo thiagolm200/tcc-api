@@ -26,13 +26,20 @@ public class RestController {
 	
 	@PostMapping(value="save")
 	@ResponseBody
-	public ResponseEntity<String> saveWaterHistory(@RequestParam(name = "quantity") String quantity) {
+	public ResponseEntity<String> saveWaterHistory(@RequestParam(name = "quantity") Double quantity) {
 		
-        WaterHistory historicoAgua = new WaterHistory(quantity);
 		
-        //waterHistoryRepository.save(historicoAgua);
-       waterHistoryRepository.saveByQuantity(quantity);
+        WaterHistory waterHistoryToday = waterHistoryRepository.retreiveToday();
         
+        if(waterHistoryToday == null) {
+        	//waterHistoryToday = new WaterHistory(quantity);
+        	waterHistoryRepository.saveByQuantity(quantity);
+        }
+        else {
+        	waterHistoryToday.setQuantity(waterHistoryToday.getQuantity() + quantity);
+        	waterHistoryRepository.flush();
+        }
+       
 		return new ResponseEntity<>("Sucess to persist !", HttpStatus.OK);
 	}
 	
@@ -46,9 +53,15 @@ public class RestController {
 		
 		List<WaterHistory> listWaterHistoryWeek = waterHistoryRepository.retreiveWeek();
 
-		String qtyToday = waterHistoryToday.getQuantity();
+		String qtyToday = "0";
 		
-		String qtyYesterday = waterHistoryYesterday.getQuantity();
+		String qtyYesterday = "0";
+		
+		if(waterHistoryToday != null)
+			qtyToday = waterHistoryToday.getQuantity().toString();
+		
+		if(waterHistoryYesterday != null)
+			qtyYesterday = waterHistoryYesterday.getQuantity().toString();
 		
 		ResponseConsumation response = new ResponseConsumation(qtyToday, qtyYesterday, listWaterHistoryWeek);
 		

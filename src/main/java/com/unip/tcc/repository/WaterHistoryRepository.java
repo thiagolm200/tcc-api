@@ -17,7 +17,7 @@ public interface WaterHistoryRepository extends JpaRepository<WaterHistory, Inte
 	@Query(value="INSERT INTO water_history(quantity) values(?1)",
 			nativeQuery = true)
 	@Transactional
-	public int saveByQuantity(String quantity);
+	public int saveByQuantity(Double quantity);
 	
 	@Query(value="SELECT * from water_history ha where ha.date_att > current_date at time zone 'gmt3'",
 			nativeQuery = true)

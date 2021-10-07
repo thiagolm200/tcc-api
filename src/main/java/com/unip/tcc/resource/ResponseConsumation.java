@@ -23,8 +23,10 @@ public class ResponseConsumation {
 		this.week = new ArrayList<HistoryDetail>();
 		
 		for(WaterHistory waterHistory : listWaterHistoryWeek) {
-			
-			this.week.add(new HistoryDetail(waterHistory.getDateAtt(), waterHistory.getQuantity()));
+			if(waterHistory != null) {
+				
+				this.week.add(new HistoryDetail(waterHistory.getDateAtt(), waterHistory.getQuantity().toString()));
+			}
 		}
 	}
 

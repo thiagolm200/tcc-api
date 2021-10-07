@@ -24,13 +24,9 @@ public class WaterHistory {
 	private Date dateAtt;
 	
 	@Column(name="quantity")
-	private String quantity;
+	private Double quantity;
 	
 	public WaterHistory() {}
-
-	public WaterHistory(String quantity) {
-		this.quantity = quantity;
-	}
 
 	public Integer getId() {
 		return id;
@@ -48,11 +44,11 @@ public class WaterHistory {
 		this.dateAtt = dateAtt;
 	}
 
-	public String getQuantity() {
+	public Double getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(String quantity) {
+	public void setQuantity(Double quantity) {
 		this.quantity = quantity;
 	}
 }
